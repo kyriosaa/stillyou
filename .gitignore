@@ -1,0 +1,27 @@
+# Auto generated. Not all of these files may exist in the project.
+
+# Gradle cache and build output
+.gradle/
+build/
+app/build/
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Logs
+*.log
+
+# Java-specific
+*.class
+
+# Distribution archives
+*.jar
+*.war
+*.ear
+
+# Local environment files
+.env
