@@ -1,0 +1,75 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Face -->
+    <path
+        android:fillColor="#FFD966"
+        android:pathData="M70,60 Q50,100 70,160 Q130,160 150,100 Q130,60 70,60 Z" />
+
+    <!-- Left Ear -->
+    <path
+        android:fillColor="#FFD966"
+        android:pathData="M60,60 Q45,40 50,30 Q65,35 65,55 Z" />
+
+    <!-- Right Ear -->
+    <path
+        android:fillColor="#FFD966"
+        android:pathData="M140,60 Q155,40 150,30 Q135,35 135,55 Z" />
+
+    <!-- Left Ossicone -->
+    <path
+        android:fillColor="#A0522D"
+        android:pathData="M75,30 Q75,10 80,10 Q85,10 85,30 Z" />
+    <!-- Left Ossicone Tip (converted from circle cx="80", cy="10", r="5") -->
+    <path
+        android:fillColor="#A0522D"
+        android:pathData="M 80 10 m -5 0 a 5 5 0 1 0 10 0 a 5 5 0 1 0 -10 0" />
+
+    <!-- Right Ossicone -->
+    <path
+        android:fillColor="#A0522D"
+        android:pathData="M115,30 Q115,10 120,10 Q125,10 125,30 Z" />
+    <!-- Right Ossicone Tip (converted from circle cx="120", cy="10", r="5") -->
+    <path
+        android:fillColor="#A0522D"
+        android:pathData="M 120 10 m -5 0 a 5 5 0 1 0 10 0 a 5 5 0 1 0 -10 0" />
+
+    <!-- Eyes -->
+    <!-- Left Eye (converted from circle cx="85", cy="90", r="5") -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M 85 90 m -5 0 a 5 5 0 1 0 10 0 a 5 5 0 1 0 -10 0" />
+    <!-- Right Eye (converted from circle cx="115", cy="90", r="5") -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M 115 90 m -5 0 a 5 5 0 1 0 10 0 a 5 5 0 1 0 -10 0" />
+
+    <!-- Nose -->
+    <path
+        android:fillColor="#D2691E"
+        android:pathData="M90,125 Q100,140 110,125 Q100,120 90,125 Z" />
+
+    <!-- Mouth -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M90,135 Q100,145 110,135" />
+
+    <!-- Spots -->
+    <!-- Spot 1 (converted from circle cx="75", cy="115", r="4") -->
+    <path
+        android:fillColor="#A0522D"
+        android:pathData="M 75 115 m -4 0 a 4 4 0 1 0 8 0 a 4 4 0 1 0 -8 0" />
+    <!-- Spot 2 (converted from circle cx="125", cy="115", r="4") -->
+    <path
+        android:fillColor="#A0522D"
+        android:pathData="M 125 115 m -4 0 a 4 4 0 1 0 8 0 a 4 4 0 1 0 -8 0" />
+    <!-- Spot 3 (converted from circle cx="100", cy="105", r="3") -->
+    <path
+        android:fillColor="#A0522D"
+        android:pathData="M 100 105 m -3 0 a 3 3 0 1 0 6 0 a 3 3 0 1 0 -6 0" />
+</vector>

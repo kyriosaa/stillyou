@@ -1,0 +1,82 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Head -->
+    <path
+        android:fillColor="#FFCC99"
+        android:pathData="M40,40 Q20,100 40,160 Q100,200 160,160 Q180,100 160,40 Q100,0 40,40" />
+
+    <!-- Left Ear -->
+    <path
+        android:fillColor="#FFCC99"
+        android:pathData="M45,35 L30,0 L60,20 Z" />
+
+    <!-- Right Ear -->
+    <path
+        android:fillColor="#FFCC99"
+        android:pathData="M155,35 L170,0 L140,20 Z" />
+
+    <!-- Left Eye -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M 70 90 m -8 0 a 8 8 0 1 0 16 0 a 8 8 0 1 0 -16 0" />
+
+    <!-- Right Eye -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M 130 90 m -8 0 a 8 8 0 1 0 16 0 a 8 8 0 1 0 -16 0" />
+
+    <!-- Nose -->
+    <path
+        android:fillColor="#FF6699"
+        android:pathData="M95,110 L105,110 L100,120 Z" />
+
+    <!-- Mouth -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M100,120 Q90,130 80,125" />
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M100,120 Q110,130 120,125" />
+
+    <!-- Whiskers Left -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M60,110 L30,105" />
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M60,115 L30,115" />
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M60,120 L30,125" />
+
+    <!-- Whiskers Right -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M140,110 L170,105" />
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M140,115 L170,115" />
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M140,120 L170,125" />
+</vector>

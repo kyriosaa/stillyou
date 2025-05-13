@@ -1,0 +1,31 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Head -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M60,50 Q40,100 60,150 Q100,180 140,150 Q160,100 140,50 Q100,20 60,50 Z" />
+
+    <!-- Face Patch (white area) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M70,60 Q50,100 70,140 Q100,160 130,140 Q150,100 130,60 Q100,40 70,60 Z" />
+
+    <!-- Eyes -->
+    <!-- Left Eye (converted from circle cx="85", cy="90", r="5") -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M 85 90 m -5 0 a 5 5 0 1 0 10 0 a 5 5 0 1 0 -10 0" />
+    <!-- Right Eye (converted from circle cx="115", cy="90", r="5") -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M 115 90 m -5 0 a 5 5 0 1 0 10 0 a 5 5 0 1 0 -10 0" />
+
+    <!-- Beak -->
+    <path
+        android:fillColor="#FFA500"
+        android:pathData="M95,110 L105,110 L100,120 Z" />
+</vector>
