@@ -1,27 +1,15 @@
-# Auto generated. Not all of these files may exist in the project.
-
-# Gradle cache and build output
-.gradle/
-build/
-app/build/
-
-# IDE files
-.idea/
 *.iml
-*.ipr
-*.iws
-.vscode/
-
-# Logs
-*.log
-
-# Java-specific
-*.class
-
-# Distribution archives
-*.jar
-*.war
-*.ear
-
-# Local environment files
-.env
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
