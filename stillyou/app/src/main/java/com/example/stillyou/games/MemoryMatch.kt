@@ -1,11 +1,14 @@
 package com.example.stillyou.games
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
@@ -15,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.paging.flatMap
 import com.example.stillyou.R
 import kotlinx.coroutines.delay
 import kotlin.random.Random
@@ -30,7 +32,7 @@ data class Card(
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun MemoryMatch(onGameEnd: (timeTakenMillis: Long) -> Unit) {
+fun MemoryMatch(onGameEnd: (timeTakenMillis: Long) -> Unit, modifier: Modifier, onBackClick: () -> Unit) {
     // State to hold the list of cards
     var cards by remember { mutableStateOf(generateCards()) }
     // State to keep track of the currently flipped cards
@@ -82,7 +84,7 @@ fun MemoryMatch(onGameEnd: (timeTakenMillis: Long) -> Unit) {
 
     // Composable for the game over screen
     @Composable
-    fun GameOverScreen(timeTaken: Long) {
+    fun GameOverScreen(timeTaken: Long, onReturnToMenu: () -> Unit) { // add back button to main menu
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -105,37 +107,57 @@ fun MemoryMatch(onGameEnd: (timeTakenMillis: Long) -> Unit) {
             }) {
                 Text("Play Again")
             }
+            Spacer(modifier = Modifier.height(8.dp)) // spacing with play again btn
+            Button(onClick = onReturnToMenu) {
+                Text("Return to Main Menu") // back to menu btn
+            }
         }
     }
-
     // Main game UI
-    if (isGameOver) {
-        GameOverScreen(timeTaken = timeTaken)
-    } else {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Score: $score", style = MaterialTheme.typography.headlineSmall)
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Grid for the memory cards
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(4), // Adjust the number of columns as needed
-                contentPadding = PaddingValues(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+    Scaffold( // Use Scaffold to add a TopAppBar for the back button
+        topBar = {
+            if (!isGameOver) { // Only show TopAppBar when game is not over
+                TopAppBar(
+                    title = { Text("Memory Match") },
+                    navigationIcon = {
+                        IconButton(onClick = onBackClick) { // Call the onBackClick lambda
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        }
+                    }
+                )
+            }
+        }
+    ) { paddingValues ->
+        if (isGameOver) {
+            // Pass the onReturnToMenu lambda to GameOverScreen
+            GameOverScreen(timeTaken = timeTaken) { onBackClick() } // Use onBackClick to return to menu
+        } else {
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues) // Apply padding from Scaffold
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                itemsIndexed(cards) { index, card ->
-                    CardItem(card = card) {
-                        // Handle card click
-                        if (!card.isMatched && !card.isFlipped && flippedCardIndices.size < 2) {
-                            cards = cards.toMutableList().apply {
-                                this[index] = this[index].copy(isFlipped = true)
+                Text("Score: $score", style = MaterialTheme.typography.headlineSmall)
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Grid for the memory cards
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(4), // Adjust the number of columns as needed
+                    contentPadding = PaddingValues(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    itemsIndexed(cards) { index, card ->
+                        CardItem(card = card) {
+                            // Handle card click
+                            if (!card.isMatched && !card.isFlipped && flippedCardIndices.size < 2) {
+                                cards = cards.toMutableList().apply {
+                                    this[index] = this[index].copy(isFlipped = true)
+                                }
+                                flippedCardIndices = flippedCardIndices + index
                             }
-                            flippedCardIndices = flippedCardIndices + index
                         }
                     }
                 }
@@ -158,7 +180,7 @@ fun CardItem(card: Card, onCardClick: () -> Unit) {
         ) {
             if (card.isFlipped || card.isMatched) {
                 // Display the image if flipped or matched
-                Icon(
+                Image(
                     painter = painterResource(id = card.imageResId),
                     contentDescription = null, // Or a descriptive content description
                     modifier = Modifier.size(48.dp) // Adjust icon size
