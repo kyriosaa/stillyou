@@ -22,7 +22,7 @@ import com.example.stillyou.R
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
-// Data class to represent a single card
+// card class
 data class Card(
     val id: Int,
     val imageResId: Int,
@@ -33,51 +33,51 @@ data class Card(
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MemoryMatch(onGameEnd: (timeTakenMillis: Long) -> Unit, modifier: Modifier, onBackClick: () -> Unit) {
-    // State to hold the list of cards
+    // STATE - holds the list of cards
     var cards by remember { mutableStateOf(generateCards()) }
-    // State to keep track of the currently flipped cards
+    // STATE - keeps track of the currently flipped cards
     var flippedCardIndices by remember { mutableStateOf(listOf<Int>()) }
-    // State for the player's score (number of matched pairs)
+    // STATE -  keeps track of the player's score (number of matched pairs)
     var score by remember { mutableStateOf(0) }
-    // State to track if the game is over
+    // STATE - tracks if the game is over
     var isGameOver by remember { mutableStateOf(false) }
-    // State to track the start time of the game
+    // STATE - tracks the start time of the game
     var startTime by remember { mutableStateOf(System.currentTimeMillis()) }
-    // State to track the time taken to complete the game
+    // STATE - tracks the time taken to complete the game
     var timeTaken by remember { mutableStateOf(0L) }
 
-    // Effect to handle matching and flipping back cards
+    // effect to handle matching and flipping back cards
     LaunchedEffect(flippedCardIndices) {
         if (flippedCardIndices.size == 2) {
-            // Disable clicks while checking for match
+            // disable clicks while checking for match
             val (index1, index2) = flippedCardIndices
             val card1 = cards[index1]
             val card2 = cards[index2]
 
-            delay(1000) // Delay to allow the user to see the second card
+            delay(800) // delay after second card is pressed
 
             if (card1.imageResId == card2.imageResId) {
-                // Match found
+                // match found
                 cards = cards.toMutableList().apply {
                     this[index1] = this[index1].copy(isMatched = true)
                     this[index2] = this[index2].copy(isMatched = true)
                 }
                 score++
             } else {
-                // No match, flip back
+                // no match, flip back
                 cards = cards.toMutableList().apply {
                     this[index1] = this[index1].copy(isFlipped = false)
                     this[index2] = this[index2].copy(isFlipped = false)
                 }
             }
-            // Clear flipped cards
+            // clear flipped cards
             flippedCardIndices = listOf()
 
-            // Check if the game is over
+            // checks if the game is over
             if (cards.all { it.isMatched }) {
                 isGameOver = true
                 timeTaken = System.currentTimeMillis() - startTime
-                onGameEnd(timeTaken) // Call the callback when the game ends
+                onGameEnd(timeTaken) // call the callback when the game ends
             }
         }
     }
@@ -96,14 +96,14 @@ fun MemoryMatch(onGameEnd: (timeTakenMillis: Long) -> Unit, modifier: Modifier, 
             Spacer(modifier = Modifier.height(16.dp))
             Text("Time Taken: ${timeTaken / 1000} seconds", fontSize = 20.sp)
             Spacer(modifier = Modifier.height(24.dp))
-            // You could add a button to play again here
+
+            // button to reset game
             Button(onClick = {
-                // Reset the game
                 cards = generateCards()
                 flippedCardIndices = listOf()
                 score = 0
                 isGameOver = false
-                startTime = System.currentTimeMillis() // Reset start time
+                startTime = System.currentTimeMillis() // reset start time
             }) {
                 Text("Play Again")
             }
@@ -113,14 +113,14 @@ fun MemoryMatch(onGameEnd: (timeTakenMillis: Long) -> Unit, modifier: Modifier, 
             }
         }
     }
-    // Main game UI
-    Scaffold( // Use Scaffold to add a TopAppBar for the back button
+    // main game UI
+    Scaffold( // use Scaffold to add a TopAppBar for the back button
         topBar = {
-            if (!isGameOver) { // Only show TopAppBar when game is not over
+            if (!isGameOver) { // only show TopAppBar when game is not over
                 TopAppBar(
                     title = { Text("Memory Match") },
                     navigationIcon = {
-                        IconButton(onClick = onBackClick) { // Call the onBackClick lambda
+                        IconButton(onClick = onBackClick) { // calling the onBackClick lambda
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                         }
                     }
@@ -129,12 +129,12 @@ fun MemoryMatch(onGameEnd: (timeTakenMillis: Long) -> Unit, modifier: Modifier, 
         }
     ) { paddingValues ->
         if (isGameOver) {
-            // Pass the onReturnToMenu lambda to GameOverScreen
-            GameOverScreen(timeTaken = timeTaken) { onBackClick() } // Use onBackClick to return to menu
+            // pass the onReturnToMenu lambda to GameOverScreen
+            GameOverScreen(timeTaken = timeTaken) { onBackClick() } // onBackClick to return to menu
         } else {
             Column(
                 modifier = Modifier
-                    .padding(paddingValues) // Apply padding from Scaffold
+                    .padding(paddingValues) // padding from Scaffold
                     .fillMaxSize()
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -142,16 +142,16 @@ fun MemoryMatch(onGameEnd: (timeTakenMillis: Long) -> Unit, modifier: Modifier, 
                 Text("Score: $score", style = MaterialTheme.typography.headlineSmall)
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Grid for the memory cards
+                // grid for the memory cards
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(4), // Adjust the number of columns as needed
+                    columns = GridCells.Fixed(4),
                     contentPadding = PaddingValues(8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     itemsIndexed(cards) { index, card ->
                         CardItem(card = card) {
-                            // Handle card click
+                            // handle card click
                             if (!card.isMatched && !card.isFlipped && flippedCardIndices.size < 2) {
                                 cards = cards.toMutableList().apply {
                                     this[index] = this[index].copy(isFlipped = true)
@@ -170,7 +170,7 @@ fun MemoryMatch(onGameEnd: (timeTakenMillis: Long) -> Unit, modifier: Modifier, 
 fun CardItem(card: Card, onCardClick: () -> Unit) {
     Card(
         modifier = Modifier
-            .aspectRatio(1f) // Make cards square
+            .aspectRatio(1f) // square cards
             .clickable(enabled = !card.isMatched && !card.isFlipped) { onCardClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -179,21 +179,21 @@ fun CardItem(card: Card, onCardClick: () -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             if (card.isFlipped || card.isMatched) {
-                // Display the image if flipped or matched
+                // display the image if flipped or matched
                 Image(
                     painter = painterResource(id = card.imageResId),
-                    contentDescription = null, // Or a descriptive content description
-                    modifier = Modifier.size(48.dp) // Adjust icon size
+                    contentDescription = null,
+                    modifier = Modifier.size(54.dp) // adjust icon size here
                 )
             } else {
-                // Display a back for unflipped cards
-                Text("?", fontSize = 32.sp) // Simple question mark for the back
+                // display a back for unflipped cards
+                Text("?", fontSize = 32.sp) // simple question mark for the back for now but we can change it later
             }
         }
     }
 }
 
-// Function to generate a shuffled list of cards
+// function to generate a shuffled list of cards
 fun generateCards(): List<Card> {
     val images = listOf(
         // drawable resource files
@@ -207,7 +207,7 @@ fun generateCards(): List<Card> {
         R.drawable.ic_penguin
     )
 
-    // Create pairs of cards
+    // create pairs of cards
     val cardList = images.flatMap { imageResId ->
         listOf(
             Card(id = Random.nextInt(), imageResId = imageResId),
@@ -215,7 +215,7 @@ fun generateCards(): List<Card> {
         )
     }
 
-    // Shuffle the cards
+    // shuffle cards
     return cardList.shuffled()
 }
 
