@@ -38,8 +38,8 @@ fun MainMenu(onGameSelected: (String) -> Unit) {
                 modifier = Modifier.padding(bottom = 32.dp)
             )
 
-            // List of available games
-            val games = listOf("Card Game") // add more games here
+            // games list
+            val games = listOf("Memory Match") // add more games here
 
             games.forEach { gameName ->
                 GameMenuItem(gameName = gameName) {
