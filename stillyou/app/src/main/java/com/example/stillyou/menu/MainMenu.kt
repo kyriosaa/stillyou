@@ -1,6 +1,8 @@
 package com.example.stillyou.menu
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -8,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 /**
  * Composable function for the main menu of the application.
@@ -18,10 +22,17 @@ import androidx.compose.ui.unit.sp
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainMenu(onGameSelected: (String) -> Unit) {
+fun MainMenu(role: UserRole, navController: NavController, onGameSelected: (String) -> Unit) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Main Menu") })
+            TopAppBar(
+                title = { Text("Main Menu") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                }
+            )
         }
     ) { paddingValues ->
         Column(
@@ -32,23 +43,39 @@ fun MainMenu(onGameSelected: (String) -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "Choose Your Game",
-                fontSize = 24.sp,
-                modifier = Modifier.padding(bottom = 32.dp)
-            )
-
-            // games list
-            val games = listOf("Memory Match") // add more games here
-
-            games.forEach { gameName ->
-                GameMenuItem(gameName = gameName) {
-                    onGameSelected(gameName)
+            when (role) {
+                UserRole.Doctor, UserRole.Patient -> {
+                    Text("Choose Your Game", fontSize = 24.sp, modifier = Modifier.padding(bottom = 32.dp))
+                    val games = listOf("Memory Match")
+                    games.forEach { gameName ->
+                        GameMenuItem(gameName = gameName) {
+                            onGameSelected(gameName)
+                        }
+                    }
+                }
+                UserRole.Guardian -> {
+                    Text("Assign a Game to Patient", fontSize = 24.sp, modifier = Modifier.padding(bottom = 32.dp))
+                    val patients = listOf("Patient A", "Patient B")
+                    val games = listOf("Memory Match")
+                    patients.forEach { patient ->
+                        Text(text = patient)
+                        games.forEach { gameName ->
+                            Button(
+                                onClick = { onGameSelected(gameName) },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp)
+                            ) {
+                                Text(text = "Assign \"$gameName\" to $patient")
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
+
 
 /**
  * Composable function for a single game menu item.
@@ -72,5 +99,6 @@ fun GameMenuItem(gameName: String, onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun MainMenuPreview() {
-    MainMenu(onGameSelected = {})
+    val navController = rememberNavController()
+    MainMenu(role = UserRole.Patient, navController = navController, onGameSelected = {})
 }
